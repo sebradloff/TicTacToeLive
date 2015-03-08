@@ -40,6 +40,12 @@ public class Board {
     }
 
     public boolean isFull() {
-        return false;
+        for (int i = 0; i < cells.size(); i++){
+            if (cells.get(i) == " "){
+                return false;
+            }
+        }
+
+        return true;
     }
 }

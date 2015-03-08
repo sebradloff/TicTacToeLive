@@ -6,10 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+
 
 public class BoardTest {
 
@@ -87,6 +90,35 @@ public class BoardTest {
         cells.set(0, " ");
 
         assertThat(board.isCellTaken(1), is(false));
+    }
+
+    @Test
+    public void shouldBeFullWhenAllTheCellsAreTaken() {
+        cells.set(0, "*");
+        cells.set(1, "*");
+        cells.set(2, "*");
+        cells.set(3, "*");
+        cells.set(4, "*");
+        cells.set(5, "*");
+        cells.set(6, "*");
+        cells.set(7, "*");
+        cells.set(8, "*");
+
+        assertTrue(board.isFull());
+    }
+
+    @Test
+    public void shouldNotBeFullWhenOnlyEightOfTheCellsAreTaken() {
+        cells.set(0, "*");
+        cells.set(1, "*");
+        cells.set(2, "*");
+        cells.set(3, "*");
+        cells.set(4, "*");
+        cells.set(5, "*");
+        cells.set(6, "*");
+        cells.set(7, "*");
+
+        assertFalse(board.isFull());
     }
 
 }
