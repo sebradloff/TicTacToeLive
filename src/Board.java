@@ -1,13 +1,16 @@
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.List;
 
 import static java.lang.String.format;
 
 public class Board {
+    private Collection<WinCondition> winConditions;
     private PrintStream printStream;
     private List<String> cells;
 
-    public Board(PrintStream printStream, List<String> cells) {
+    public Board(Collection<WinCondition> winConditions, PrintStream printStream, List<String> cells) {
+        this.winConditions = winConditions;
         this.printStream = printStream;
         this.cells = cells;
     }
@@ -48,4 +51,15 @@ public class Board {
 
         return true;
     }
+
+    public boolean isWon() {
+        for (WinCondition winCondition : winConditions) {
+            if (winCondition.isTrue(cells)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

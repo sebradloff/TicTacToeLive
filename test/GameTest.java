@@ -1,6 +1,8 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.PrintStream;
+
 import static org.mockito.Mockito.*;
 
 public class GameTest {
@@ -9,14 +11,16 @@ public class GameTest {
     private Game game;
     private Player player1;
     private Player player2;
+    private PrintStream printStream;
 
     @Before
     public void setUp() throws Exception {
+        printStream = mock(PrintStream.class);
         board = mock(Board.class);
         onlyOnePlayerMoves();
         player1 = mock(Player.class);
         player2 = mock(Player.class);
-        game = new Game(board, player1, player2, player1);
+        game = new Game(printStream, board, player1, player2, player1);
     }
 
     @Test
@@ -74,6 +78,15 @@ public class GameTest {
 
         verify(player1).move();
         verify(player2, never()).move();
+    }
+
+    @Test
+    public void shouldPrintGameIsADrawWhenTheGameIsOver(){
+        when(board.isFull()).thenReturn(true);
+
+        game.start();
+
+        verify(printStream).println("Game is a draw");
     }
 
     private void onlyOnePlayerMoves() {

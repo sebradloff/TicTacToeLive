@@ -4,6 +4,7 @@ import org.junit.Test;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static junit.framework.TestCase.assertFalse;
@@ -19,12 +20,17 @@ public class BoardTest {
     private PrintStream printStream;
     private Board board;
     private List<String> cells;
+    private Collection<WinCondition> winConditions;
+    private WinCondition winCondition;
 
     @Before
     public void setUp() throws Exception {
         printStream = mock(PrintStream.class);
         cells = new ArrayList<String>(Arrays.asList(" ", " ", " ", " ", " ", " ", " ", " ", " "));
-        board = new Board(printStream, cells);
+        winConditions = new ArrayList<WinCondition>();
+        winCondition = mock(WinCondition.class);
+        winConditions.add(winCondition);
+        board = new Board(winConditions,printStream, cells);
     }
 
     @Test
@@ -120,5 +126,20 @@ public class BoardTest {
 
         assertFalse(board.isFull());
     }
+
+    @Test
+    public void shouldNotHaveAWinnerWhenThePlayerDoesNotHaveThreeInARow(){
+
+        assertFalse(board.isWon());
+    }
+
+    @Test
+    public void shouldHaveXAsWinnerWhenTheXPlayerHasThreeInARow(){
+        board.isWon();
+
+        verify(winCondition).isTrue(cells);
+    }
+
+
 
 }
